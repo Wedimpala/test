@@ -1,37 +1,42 @@
-import { useState, useEffect } from "react";
+import * as React from "react";
 import "./App.css";
-import SocialCard  from './SocialCard';
+import { Link } from "react-router-dom";
 
-function App() {
-  const [users, setUsers]= useState([]);
+export default function App() {
 
-  useEffect(() => {
-    (async () => {
-      let userData;
-      try{
-        const response =  await fetch("https://randomuser.me/api/?results=10");
-        const userData = (await response.json()).results;
-      } catch(error){
-        console.log(error);
-        userData = [];
-      }
-      
-      setUsers(userData);
-
-    })();
+  const [users, setUsers] = React.useState([]);
+  const f = async () => {
+    const res = await fetch(" https://reqres.in/api/users?page=1");
+    const json = await res.json();
+    setUsers(json.data);
+  };
+  React.useEffect(() => {
+    f();
   }, []);
 
   return (
-   
-    <div className='App'>
-      {users&&users.map((user, index) => (
-        <SocialCard userData={user} key={index}/>
-      ))}
+    <div className="App">
+      <h1>Users View</h1>
+      <div className="flex">
+        {users.length &&
+          users.map((user) => {         
 
+            return (
+              <Link to="/userinfo">
+              <div className="card" > 
+                <div key={user.id}>
+                  <div> <img key={user.avatar} src={user.avatar} /> </div>
+                
+                <p><strong>{user.first_name}</strong></p>
+                <p>{user.email}</p>
+               </div>
+              </div>
+              </Link>
+                
+            );
+          })}
+      </div>
     </div>
-    
   );
-  
 }
 
-export default App

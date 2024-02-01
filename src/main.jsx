@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import './index.css'
+import UserInfo from './UserInfo.jsx';
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -12,6 +13,11 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
   },
+  {
+    path: "/userinfo",
+    element: <UserInfo/>,
+  },
+
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
